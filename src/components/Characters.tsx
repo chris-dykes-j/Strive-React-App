@@ -1,15 +1,17 @@
 import React, {useEffect, useState} from "react";
 
 const Characters = () => {
-  const [characters, setCharacters] = useState([]);
+  const [characters, setCharacters] = useState<object[]>([]);
   useEffect(() => {
     const getCharacters = async () => {
-      const response = await fetch("localhost:7006/api/characters/")
+      const response: any = await fetch("https://localhost:7006/api/characters/")
         .then(r => r.json())
+        .then(r => console.log(r))
         .catch(e => console.log(e));
-      setCharacters(response);
+      const data = response.result.map((character: { id: number, characterName: string }) => character.id);
+      setCharacters(data);
     };
-    getCharacters().then(c => console.log(c));
+    getCharacters();
   }, []);
   
   return (
